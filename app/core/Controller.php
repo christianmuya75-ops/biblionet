@@ -15,4 +15,11 @@ class Controller
         header("Location: $url");
         exit;
     }
+
+    protected function requireAuth(): void
+    {
+        if (empty($_SESSION['user'])) {
+            $this->redirect('/auth/login');
+        }
+    }
 }
