@@ -19,11 +19,13 @@ class Router
         $method = $parts[1] ?? 'index';
         $params = array_slice($parts, 2);
 
-        if (!$class || !class_exists($class) || !method_exists($class, $method)) {
+        $obj = ($class && class_exists($class)) ? new $class() : null;
+
+        if (!$obj || !is_callable([$obj, $method])) {
             http_response_code(404);
             echo '404 - Page introuvable';
             return;
         }
-        (new $class())->$method(...$params);
+        $obj->$method(...$params);
     }
 }

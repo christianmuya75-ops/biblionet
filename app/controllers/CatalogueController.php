@@ -3,6 +3,10 @@ class CatalogueController extends Controller
 {
     public function index(): void
     {
-        $this->view('catalogue/index');
+        $q = trim($_GET['q'] ?? '');
+        $this->view('catalogue/index', [
+            'livres' => Livre::catalogue($q),
+            'q'      => $q,
+        ]);
     }
 }
